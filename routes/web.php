@@ -33,3 +33,8 @@ Route::prefix('/app')->group(function () {
 Route::fallback(function(){
     echo 'A rota acessada não existe. Clique <a href="'.route('site.index').'"> aqui</a> para retornar';
 });
+
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
