@@ -16,6 +16,10 @@ use App\Http\Controllers\FornecedorController;
 */
 
 Route::get('/', [PrincipalController::class , 'index'])->name('site.index');
+Route::get('/sobrenos', function(){return view('site.sobre-nos');})->name('site.sobrenos');
+Route::get('/contato', function(){return view( 'site.contato');})->name('site.contato');
+
+
 
 Route::prefix('/app')->group(function () {
     Route::get('/clientes', function(){
@@ -30,11 +34,9 @@ Route::prefix('/app')->group(function () {
 
 });
 
+Auth::routes();
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 Route::fallback(function(){
     echo 'A rota acessada não existe. Clique <a href="'.route('site.index').'"> aqui</a> para retornar';
 });
-
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

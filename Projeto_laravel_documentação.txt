@@ -49,8 +49,254 @@ condição ? se verdade : se falso;
 
 ** Encadeamento : condição ? se verdade : (condicao ? se verdade : se falso);
 ** O Encadeamento nao é recomendado a ser feito.
-** Exemplo:
+
+** Exemplo de operador ternario feito no controller:
 
 echo isset($fornecedores[1]['cnpj']) ? 'cnpj existe' : 'Cnpj nao existe';
 
 ****************************************************
+
+** Operador condicional no padrao default:
+** Testa a variavel de duas formas:
+<--
+Se $variavel testada no isset, possui valor null
+Se $variavel testada no isset, nao estiver definida
+-->
+
+Exemplo no arquivo Blade.php:
+
+Cnpj:: {{ $fornecedores[1]['cnpj'] ?? 'Esta vazio' }}
+
+
+****************************************************
+
+** Switch case:
+A declaração de switch case é usada para realizar ações 
+diferentes com base em condições diferentes. Similar ao 
+IF em utilidade, você pode adicionar diversas condições.
+** 
+
+Exemplo no blade:
+
+@switch ($fornecedores[0]['ddd])
+
+    @case ('11')
+        Sao Paulo - SP
+        @break
+    @casew ('32')
+        Juiz de fora - MG
+        @break
+    @default
+        ddd nao Identificado
+@endswitch
+
+
+****************************************************
+
+** Trabalhando com o operador FOR no blade.php
+
+@isset($fornecedores)
+
+    @for($i = 0; isset($fornecedores[$i]); $i++)
+        Fornecedor:: {{ $fornecedores[$i]['nome'] }}
+        </br>
+        Status:: {{ $fornecedores[$i]['status'] }}
+        <br>
+        CNPJ:: {{ $fornecedores[$i]['cnpj'] ?? ''}}
+        <br>
+        Contato:: {{ ($fornecedores[$i]['ddd']) ?? ''}} {{ $fornecedores[$i]['telefone'] ?? '' }}
+        <hr>
+    @endfor
+
+@endisset
+
+****************************************************
+
+
+** Trabalhando com o operador while no sintax blade
+
+**while (true)
+**    executa o codigo
+
+** Exemplo no blade.php
+
+@isset($fornecedores)
+
+    @php $i = 0 @endphp
+    @while(isset($fornecedores[$i]))
+        Fornecedor:: {{ $fornecedores[$i]['nome'] }}
+        </br>
+        Status:: {{ $fornecedores[$i]['status'] }}
+        <br>
+        CNPJ:: {{ $fornecedores[$i]['cnpj'] ?? ''}}
+        <br>
+        Contato:: {{ ($fornecedores[$i]['ddd']) ?? ''}} {{ $fornecedores[$i]['telefone'] ?? '' }}
+        <hr>
+        @php $i ++ @endphp
+    @endwhile
+
+@endisset
+
+
+****************************************************
+
+
+** Trabalhando com o foreach no sintax blade do php
+** O foreach e um laco de repeticao e passado 3 campos:  o array que sera percorrido, o indice na qual
+** recebe um apelido e, em seguida, declaramos uma variavel que vai receber cada valor no array.
+** foreach($array as $indices => $value) {
+
+** }
+
+** Exemplo
+@isset($fornecedores)
+
+    @foreach($fornecedores as $ind => $fornecedor )
+        Fornecedor:: {{ $fornecedor['nome'] }}
+        </br>
+        Status:: {{ $fornecedor['status'] }}
+        <br>
+        CNPJ:: {{ $fornecedor['cnpj'] ?? ''}}
+        <br>
+        Contato:: {{ ($fornecedor['ddd']) ?? ''}} {{ $fornecedor['telefone'] ?? '' }}
+        <hr>
+    @endforeach
+
+@endisset
+
+** O foreach faz uma copia do array original. Se quisessemos modificar algum valor
+** da copia, fariamos da seguinte maneira:
+** Foi trocado o valor do nome pela string
+@isset($fornecedores)
+
+    @foreach($fornecedores as $ind => $fornecedor )
+        Fornecedor:: {{ $fornecedor['nome'] }}
+        </br>
+        @php $fornecedor['nome'] = 'Outro nome' @endphp
+        Status:: {{ $fornecedor['status'] }}
+        <br>
+        CNPJ:: {{ $fornecedor['cnpj'] ?? ''}}
+        <br>
+        Contato:: {{ ($fornecedor['ddd']) ?? ''}} {{ $fornecedor['telefone'] ?? '' }}
+        <hr>
+    @endforeach
+
+@endisset
+
+** Para afetar o valor original do array, colocamos a variavel original:
+
+@isset($fornecedores)
+
+    @foreach($fornecedores as $ind => $fornecedor )
+        Fornecedor:: {{ $fornecedor['nome'] }}
+        </br>
+        @php $fornecedores[$ind]['nome'] = 'Outro nome' @endphp
+        Status:: {{ $fornecedor['status'] }}
+        <br>
+        CNPJ:: {{ $fornecedor['cnpj'] ?? ''}}
+        <br>
+        Contato:: {{ ($fornecedor['ddd']) ?? ''}} {{ $fornecedor['telefone'] ?? '' }}
+        <hr>
+    @endforeach
+
+@endisset
+
+****************************************************
+
+** Utilizado o forelse no blade
+
+** O forelse funciona assim como o foreach com a mesma estrutura. O que diferencia e que no final do codigo, se a variavel estiver vazia
+** ele toma outro caminho que podemos implementar por meio do @empty.
+** Exemplo no controller: 
+    $fornecedores = [];
+
+** Exemplo no blade.php
+
+@isset($fornecedores)
+
+    @forelse($fornecedores as $fornecedor)
+        Fornecedor:: {{ $fornecedor['nome'] }}
+        </br>
+        Status:: {{ $fornecedor['status'] }}
+        <br>
+        CNPJ:: {{ $fornecedor['cnpj'] ?? '' }}
+        <br>
+        Contato:: {{ $fornecedor['ddd'] ?? '' }} {{ $fornecedor['telefone'] ?? '' }}
+        <hr>
+        @empty
+        Nao existem fornecedores cadastrados !
+    @endforelse
+
+@endisset
+
+****************************************************
+
+** Para escapar da tag de impressao do blade, podemos colocar o 
+** @ antes do abre e fecha chaves, e o conteudo nao sera interpretado.
+** Exemplo:
+
+@isset($fornecedores)
+
+    @for ($i = 0; isset($fornecedores[$i]); $i++)
+        Fornecedor: @{{ $fornecedores[$i]['nome'] }}
+
+    @endfor
+
+@endisset
+
+
+
+****************************************************
+
+** Variavel Loop:
+<--
+    O loop e criado automaticamente quando usamos os operadores de repeticao foreach e forelse
+    Esta disponivel apenas para os operadores foreach e forelse
+    Possui dois atributos:
+
+        iteration -> Mostra a iteracao atual do laco de repeticao;
+        
+        First -> Identifica a primeira iteracao do laco de repeticao;
+
+        Last -> Identifica a ultima iteracao do laco de repeticao;
+
+        count -> Faz a contagem de todas as iteracoes e imprime no blade;
+
+    Ex: 
+        @isset($fornecedores)
+    
+            @forelse($fornecedores as $fornecedor)
+
+                Iteracao Atual: {{ $loop->iteration }}
+                <br>
+                Fornecedor:: {{ $fornecedor['nome'] }}
+                </br>
+                Status:: {{ $fornecedor['status'] }}
+                <br>
+                CNPJ:: {{ $fornecedor['cnpj'] ?? '' }}
+                <br>
+                Contato:: {{ $fornecedor['ddd'] ?? '' }} {{ $fornecedor['telefone'] ?? '' }}
+                <br>
+
+                @if ($loop->first)
+                primeira iteracao
+                @endif
+                <br>
+
+                @if($loop->last)
+                Ultima iteracao
+                @endif
+                <br>
+
+                Total de Iteracoes: {{ $loop->count }}
+                <hr>
+                
+                @empty
+                    Vazio
+            @endforelse
+
+        @endisset
+
+**    Alem desses, existem outros objetos do loop. Para ver quais sao esses outros objetos
+**    podemos utilizar o @dd(loop)
+-->
