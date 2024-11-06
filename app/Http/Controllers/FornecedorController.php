@@ -9,6 +9,21 @@ class FornecedorController extends Controller
     //
 
     public function index () {
-        return 'Controller Fornecedor';
+
+        $fornecedores = [
+            0 => [
+                'nome' => 'Fornecedor 1',
+                'status' => 'S',
+                'cnpj' => 'xsa'
+            ],
+            1 => [
+                'nome' => 'Fornecedor 2',
+                'status' => 'N'
+                
+            ]
+
+        ];
+
+        return view('app.fornecedor.index', compact('fornecedores'));
     }
 }

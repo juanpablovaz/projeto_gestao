@@ -1,0 +1,56 @@
+
+
+
+
+****************************************************
+
+Função @isset
+
+@isset($variavel) -> verifica se a variavel existe
+
+** Exemplo
+
+@isset($fornecedores)
+    Fornecedor:: {{ $fornecedores[0]['nome'] }}
+    </br>
+    Status:: {{ $fornecedores[0]['status'] }}
+@endisset
+
+****************************************************
+
+if (empty($variavel)) { // retorna true se a variável estiver vazia
+    - ''
+    - 0
+    - 0.0
+    - '0'
+    - null
+    - false
+    - array('')
+    - $var
+}
+
+** Exemplo
+
+@isset($fornecedores)
+    Fornecedor:: {{ $fornecedores[1]['nome'] }}
+    </br>
+    Status:: {{ $fornecedores[1]['status'] }}
+    <br>
+    CNPJ:: @empty($fornecedores[1]['cnpj'])
+        vazio
+    @endempty
+@endisset
+
+****************************************************
+** Operador ternario
+Esse operador funciona basicamente como o if e o else, mas em uma só linha
+
+condição ? se verdade : se falso;
+
+** Encadeamento : condição ? se verdade : (condicao ? se verdade : se falso);
+** O Encadeamento nao é recomendado a ser feito.
+** Exemplo:
+
+echo isset($fornecedores[1]['cnpj']) ? 'cnpj existe' : 'Cnpj nao existe';
+
+****************************************************
