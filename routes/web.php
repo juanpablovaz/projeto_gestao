@@ -22,6 +22,9 @@ Route::get('/sobrenos', [SobrenosController::class , 'sobrenos'])->name('site.so
 Route::get('/contato', [ContatoController::class , 'contato'])->name('site.contato');
 Route::post('/contato', [ContatoController::class , 'contato'])->name('site.contato');
 
+Route::get('/teste', function () {
+    return view('teste');
+});
 
 Route::prefix('/app')->group(function () {
     Route::get('/clientes', function(){
