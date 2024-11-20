@@ -1,4 +1,4 @@
-{{$classe;}}
+{{$classe}}
 
 <form action={{route('site.contato')}} method="POST">
     @csrf
