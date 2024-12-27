@@ -20,7 +20,7 @@ use App\Http\Controllers\FornecedorController;
 Route::get('/', [PrincipalController::class , 'index'])->name('site.index');
 Route::get('/sobrenos', [SobrenosController::class , 'sobrenos'])->name('site.sobrenos');
 Route::get('/contato', [ContatoController::class , 'contato'])->name('site.contato');
-Route::post('/contato', [ContatoController::class , 'contato'])->name('site.contato');
+Route::post('/contato', [ContatoController::class , 'salvar'])->name('site.contato');
 
 Route::get('/teste', function () {
     return view('teste');
