@@ -1,0 +1,553 @@
+$ php artisan tinker
+
+Psy Shell v0.12.4 (PHP 8.3.11 — cli) by Justin Hileman
+
+> $fornecedor = new App\Models\Fornecedor();
+= App\Models\Fornecedor {#5114}
+
+> $fornecedor->nome = 'xyz';
+= "xyz"
+
+> $fornecedor->site = 'fornecedor.com.br';
+= "fornecedor.com.br"
+
+> $fornecedor->uf = 'GO';
+= "GO"
+
+> $fornecedor->email = 'xyz@email.com';
+= "xyz@email.com"
+
+> print_r($fornecedor->getAttributes());
+Array
+(
+    [nome] => xyz
+    [site] => fornecedor.com.br
+    [uf] => GO
+    [email] => xyz@email.com
+)
+= true
+
+> $fornecedor->save();
+= true
+
+> \App\Models\Fornecedor::create(['nome' => 'AVC', 'site'=>'abc.com.br', 'uf'=>'GO', 'em
+ail'=>'abc@gmail.com.br']);
+= App\Models\Fornecedor {#6167
+    nome: "AVC",
+    site: "abc.com.br",
+    uf: "GO",
+    email: "abc@gmail.com.br",
+    updated_at: "2025-07-04 11:44:30",
+    created_at: "2025-07-04 11:44:30",
+    id: 2,
+  }
+
+> use App\Models\Fornecedor;
+> $fornecedores = Fornecedor::all();
+= Illuminate\Database\Eloquent\Collection {#6169
+    all: [
+      App\Models\Fornecedor {#6189
+        id: 1,
+        nome: "xyz",
+        created_at: "2025-07-04 11:40:16",
+        updated_at: "2025-07-04 11:40:16",
+        uf: "GO",
+        email: "xyz@email.com",
+        site: "fornecedor.com.br",
+      },
+      App\Models\Fornecedor {#6139
+        id: 2,
+        nome: "AVC",
+        created_at: "2025-07-04 11:44:30",
+        updated_at: "2025-07-04 11:44:30",
+        uf: "GO",
+        email: "abc@gmail.com.br",
+        site: "abc.com.br",
+      },
+    ],
+  }
+
+
+> print_r($fornecedores->toArray());
+Array
+(
+    [0] => Array
+        (
+            [id] => 1
+            [nome] => xyz
+            [created_at] => 2025-07-04T11:40:16.000000Z
+            [updated_at] => 2025-07-04T11:40:16.000000Z
+            [uf] => GO
+            [email] => xyz@email.com
+            [site] => fornecedor.com.br
+        )
+
+    [1] => Array
+        (
+            [id] => 2
+            [nome] => AVC
+            [created_at] => 2025-07-04T11:44:30.000000Z
+            [updated_at] => 2025-07-04T11:44:30.000000Z
+            [uf] => GO
+            [email] => abc@gmail.com.br
+            [site] => abc.com.br
+        )
+
+)
+= true
+
+
+> foreach($fornecedores as $f) {echo $f->nome; echo '-';};
+xyz-AVC-⏎
+> $fornecedor2 = Fornecedor::find(2)
+= App\Models\Fornecedor {#6530
+    id: 2,
+    nome: "AVC",
+    created_at: "2025-07-04 11:44:30",
+    updated_at: "2025-07-04 11:44:30",
+    uf: "GO",
+    email: "abc@gmail.com.br",
+    site: "abc.com.br",
+  }
+
+> echo $fornecedor2->nome;
+AVC⏎
+
+
+> $fornecedor2 = Fornecedor::find([1,2])
+= Illuminate\Database\Eloquent\Collection {#6526
+    all: [
+      App\Models\Fornecedor {#6528
+        id: 1,
+        nome: "xyz",
+        created_at: "2025-07-04 11:40:16",
+        updated_at: "2025-07-04 11:40:16",
+        uf: "GO",
+        email: "xyz@email.com",
+        site: "fornecedor.com.br",
+      },
+      App\Models\Fornecedor {#6534
+        id: 2,
+        nome: "AVC",
+        created_at: "2025-07-04 11:44:30",
+        updated_at: "2025-07-04 11:44:30",
+        uf: "GO",
+        email: "abc@gmail.com.br",
+        site: "abc.com.br",
+      },
+    ],
+  }
+
+
+> foreach($fornecedor2 as $f) {echo $f->nome; echo '-';};
+xyz-AVC-⏎
+
+
+"USANDO WHERE('nome_coluna','operador','valor')"
+
+
+> use App\Models\SiteContato;
+
+> $cont = SiteContato::where('id', '>',0)->get();
+
+= Illuminate\Database\Eloquent\Collection {#6531
+    all: [
+      App\Models\SiteContato {#6532
+        id: 2,
+        created_at: "2025-07-04 12:02:03",
+        updated_at: "2025-07-04 12:02:03",
+        nome: "JUAN PABLO DE ALMEIDA VAZ",
+        telefone: "62993354383",
+        email: "juanpablodealmeidavaz2002@gmail.com",
+        motivo_contato: 1,
+        mensagem: "Duvidas",
+      },
+    ],
+  }
+  
+ "FAZENDO BUSCA USANDO WHEREIN('CAMPO_A_SER_COMPARADO','CONJUNTO_DE_PARAMETROS')" 
+ REALIZA BUSCA EM COMPARACAO
+ 
+ > $q = SiteContato::whereIn('motivo_contato',[3,4])->get();
+= Illuminate\Database\Eloquent\Collection {#6514
+    all: [
+      App\Models\SiteContato {#6547
+        id: 6,
+        created_at: "2025-07-04 13:02:42",
+        updated_at: "2025-07-04 13:02:42",
+        nome: "Vitor Sousa",
+        telefone: "99986326598",
+        email: "vitorm22@gmail.com",
+        motivo_contato: 3,
+        mensagem: "O site esta muito complicado de mexer",
+      },
+    ],
+  }
+
+USANDO WHEREBETWEEN QUE RETORNA TUDO O QUE ESTA EM UM DETERMINADO INTERVALO. O EXEMPLO MOSTRA QUE BUSCO OS IDS DE 3 ate 6.
+
+> $q = SiteContato::whereBetween('id',[3,6])->get();
+= Illuminate\Database\Eloquent\Collection {#6503
+    all: [
+      App\Models\SiteContato {#6501
+        id: 3,
+        created_at: "2025-07-04 12:59:48",
+        updated_at: "2025-07-04 12:59:48",
+        nome: "Maria Pereira",
+        telefone: "62993354444",
+        email: "mariaperreira@gmail.com",
+        motivo_contato: 2,
+        mensagem: "gostei do sistema",
+      },
+      App\Models\SiteContato {#6500
+        id: 4,
+        created_at: "2025-07-04 12:59:53",
+        updated_at: "2025-07-04 12:59:53",
+        nome: "Maria Pereira",
+        telefone: "62993354444",
+        email: "mariaperreira@gmail.com",
+        motivo_contato: 2,
+        mensagem: "gostei do sistema",
+      },
+      App\Models\SiteContato {#6507
+        id: 5,
+        created_at: "2025-07-04 13:00:42",
+        updated_at: "2025-07-04 13:00:42",
+        nome: "Stefanny Ketryn Moreira de Sousa",
+        telefone: "6299866356",
+        email: "stefannymore22@gmail.com",
+        motivo_contato: 1,
+        mensagem: "Tenho muitas duvidas em relacao ao site Gestao",
+      },
+      App\Models\SiteContato {#6498
+        id: 6,
+        created_at: "2025-07-04 13:02:42",
+        updated_at: "2025-07-04 13:02:42",
+        nome: "Vitor Sousa",
+        telefone: "99986326598",
+        email: "vitorm22@gmail.com",
+        motivo_contato: 3,
+        mensagem: "O site esta muito complicado de mexer",
+      },
+    ],
+  }
+  
+
+USANDO WHERENOTBETWEEN QUE RETORNA TUDO O QUE NAO ESTA EM UM DETERMINADO INTERVALO. O EXEMPLO MOSTRA QUE BUSCO OS IDS QUE NAO ESTAO ENTRE 3 ate 6.
+
+> $q = SiteContato::whereNotBetween('id',[3,6])->get();
+= Illuminate\Database\Eloquent\Collection {#6553
+    all: [
+      App\Models\SiteContato {#6541
+        id: 2,
+        created_at: "2025-07-04 12:02:03",
+        updated_at: "2025-07-04 12:02:03",
+        nome: "JUAN PABLO DE ALMEIDA VAZ",
+        telefone: "62993354383",
+        email: "juanpablodealmeidavaz2002@gmail.com",
+        motivo_contato: 1,
+        mensagem: "Duvidas",
+      },
+      App\Models\SiteContato {#6516
+        id: 7,
+        created_at: "2025-07-04 13:03:34",
+        updated_at: "2025-07-04 13:03:34",
+        nome: "Ana Maria",
+        telefone: "99986326345",
+        email: "vitorm22@gmail.com",
+        motivo_contato: 2,
+        mensagem: "O site e muito bomr",
+      },
+    ],
+  }
+  
+USAR DOIS OU MAIS WHERES()
+
+> $cont = SiteContato::where('nome','<>','JUAN PABLO DE ALMEIDA VAZ')->WhereIn('motivo_c
+ontato',[1,2])->whereBetween('created_at', ['2025-06-01 00:00:00','2028-08-01 00:00:00']
+)->get();
+= Illuminate\Database\Eloquent\Collection {#6476
+    all: [
+      App\Models\SiteContato {#6555
+        id: 3,
+        created_at: "2025-07-04 12:59:48",
+        updated_at: "2025-07-04 12:59:48",
+        nome: "Maria Pereira",
+        telefone: "62993354444",
+        email: "mariaperreira@gmail.com",
+        motivo_contato: 2,
+        mensagem: "gostei do sistema",
+      },
+      App\Models\SiteContato {#6170
+        id: 4,
+        created_at: "2025-07-04 12:59:53",
+        updated_at: "2025-07-04 12:59:53",
+        nome: "Maria Pereira",
+        telefone: "62993354444",
+        email: "mariaperreira@gmail.com",
+        motivo_contato: 2,
+        mensagem: "gostei do sistema",
+      },
+    ],
+  }
+  
+UTILIZANDO O OR ONDE APENAS 1 DAS CONDICOES ESTABELECIDAS TEM QUE SER VERDADEIRAS
+
+> $cont = SiteContato::where('nome','<>','JUAN PABLO DE ALMEIDA VAZ')->orWhereIn('motivo
+_contato',[1,2])->orWhereBetween('created_at', ['2025-06-01 00:00:00','2028-08-01 00:00:
+00'])->get();
+= Illuminate\Database\Eloquent\Collection {#6563
+    all: [
+      App\Models\SiteContato {#6559
+        id: 2,
+        created_at: "2025-07-04 12:02:03",
+        updated_at: "2025-07-04 12:02:03",
+        nome: "JUAN PABLO DE ALMEIDA VAZ",
+        telefone: "62993354383",
+        email: "juanpablodealmeidavaz2002@gmail.com",
+        motivo_contato: 1,
+        mensagem: "Duvidas",
+      },
+      App\Models\SiteContato {#6448
+        id: 3,
+        created_at: "2025-07-04 12:59:48",
+        updated_at: "2025-07-04 12:59:48",
+        nome: "Maria Pereira",
+        telefone: "62993354444",
+        email: "mariaperreira@gmail.com",
+        motivo_contato: 2,
+        mensagem: "gostei do sistema",
+      },
+      App\Models\SiteContato {#6533
+        id: 4,
+        created_at: "2025-07-04 12:59:53",
+        updated_at: "2025-07-04 12:59:53",
+        nome: "Maria Pereira",
+        telefone: "62993354444",
+        email: "mariaperreira@gmail.com",
+        motivo_contato: 2,
+        mensagem: "gostei do sistema",
+      },
+    ],
+  }
+
+FILTRANDO POR VALORES NULOS E NAO NULOS
+
+> $q = SiteContato::whereNull('updated_at');
+= Illuminate\Database\Eloquent\Builder {#6527}
+
+> $q->get();
+= Illuminate\Database\Eloquent\Collection {#6550
+    all: [],
+  }
+
+> $q = SiteContato::whereNotNull('updated_at');
+= Illuminate\Database\Eloquent\Builder {#6541}
+
+> $q->get();
+= Illuminate\Database\Eloquent\Collection {#6555
+    all: [
+      App\Models\SiteContato {#6549
+        id: 2,
+        created_at: "2025-07-04 12:02:03",
+        updated_at: "2025-07-04 12:02:03",
+        nome: "JUAN PABLO DE ALMEIDA VAZ",
+        telefone: "62993354383",
+        email: "juanpablodealmeidavaz2002@gmail.com",
+        motivo_contato: 1,
+        mensagem: "Duvidas",
+      },
+      App\Models\SiteContato {#6501
+        id: 3,
+        created_at: "2025-07-04 12:59:48",
+        updated_at: "2025-07-04 12:59:48",
+        nome: "Maria Pereira",
+        telefone: "62993354444",
+        email: "mariaperreira@gmail.com",
+        motivo_contato: 2,
+        mensagem: "gostei do sistema",
+      },
+    ],
+  }
+  
+ PODEMOS ENCADEAR AS CONDICOES:
+ 
+> $q = SiteContato::whereNull('updated_at')->orWhereNull('created_at')->get();
+= Illuminate\Database\Eloquent\Collection {#6550
+    all: [],
+  }
+  
+  
+
+FILTRAR POR DATA E TEMPO. PODE USAR ALEM DO DATE: (Year, Mounth, Day)
+
+> $q = SiteContato::whereDate('created_at','2025-07-04')->whereTime('created_at','>','20
+25-07-04 13:03:00')->get();
+= Illuminate\Database\Eloquent\Collection {#6510
+    all: [
+      App\Models\SiteContato {#6474
+        id: 7,
+        created_at: "2025-07-04 13:03:34",
+        updated_at: "2025-07-04 13:03:34",
+        nome: "Ana Maria",
+        telefone: "99986326345",
+        email: "vitorm22@gmail.com",
+        motivo_contato: 2,
+        mensagem: "O site e muito bomr",
+      },
+    ],
+  }
+  
+BUSCANDO POR COLUNAS utilizando whereColumn
+
+> $q = SiteContato::where('id','>',6)->whereColumn('created_at','updated_at')->get();   
+= Illuminate\Database\Eloquent\Collection {#6138
+    all: [
+      App\Models\SiteContato {#6489
+        id: 7,
+        created_at: "2025-07-04 13:03:34",
+        updated_at: "2025-07-04 13:03:34",
+        nome: "Ana Maria",
+        telefone: "99986326345",
+        email: "vitorm22@gmail.com",
+        motivo_contato: 2,
+        mensagem: "O site e muito bomr",
+      },
+    ],
+  }
+  
+APLICANDO PRECENDENCIAS EM OPERACOES LOGICAS. CRIANDO GRUPO DE COMPARACOES RESPEITANDO A PRESCEDENCIA LOGICA.
+ 
+> $q = SiteContato::where(function($query){ $query->where('nome','like','JUAN%')->orWher
+e('nome','like','%JOAO%');  })->Where(function($query){ $query->whereIn('motivo_contato'
+,[1,4]); })->get();
+
+= Illuminate\Database\Eloquent\Collection {#6135
+    all: [
+      App\Models\SiteContato {#6154
+        id: 2,
+        created_at: "2025-07-04 12:02:03",
+        updated_at: "2025-07-04 12:02:03",
+        nome: "JUAN PABLO DE ALMEIDA VAZ",
+        telefone: "62993354383",
+        email: "juanpablodealmeidavaz2002@gmail.com",
+        motivo_contato: 1,
+        mensagem: "Duvidas",
+      },
+    ],
+  }
+  
+  
+
+ORDENANDO REGISTROS
+
+> $con = SiteContato::whereBetween('motivo_contato',[3,6])->orderBy('id','desc')->get();
+
+= Illuminate\Database\Eloquent\Collection {#6157
+    all: [
+      App\Models\SiteContato {#6140
+        id: 6,
+        created_at: "2025-07-04 13:02:42",
+        updated_at: "2025-07-04 13:02:42",
+        nome: "Vitor Sousa",
+        telefone: "99986326598",
+        email: "vitorm22@gmail.com",
+        motivo_contato: 3,
+        mensagem: "O site esta muito complicado de mexer",
+      },
+    ],
+  }
+  
+
+PEGANDO OS DADOS E PASSANDO COMO ARRAY OU TAMBEM COMO JSON
+
+> SiteContato::all()->toJson();
+= "[{"id":2,"created_at":"2025-07-04T12:02:03.000000Z","updat
+ed_at":"2025-07-04T12:02:03.000000Z","nome":"JUAN PABLO DE AL
+MEIDA VAZ","telefone":"62993354383","email":"juanpablodealmei
+davaz2002@gmail.com","motivo_contato":1,"mensagem":"Duvidas"}
+,{"id":3,"created_at":"2025-07-04T12:59:48.000000Z","updated_
+at":"2025-07-04T12:59:48.000000Z","nome":"Maria Pereira","tel
+efone":"62993354444","email":"mariaperreira@gmail.com","motiv
+o_contato":2,"mensagem":"gostei do sistema"},{"id":4,"created
+_at":"2025-07-04T12:59:53.000000Z","updated_at":"2025-07-04T1
+2:59:53.000000Z","nome":"Maria Pereira","telefone":"629933544
+44","email":"mariaperreira@gmail.com","motivo_contato":2,"men
+sagem":"gostei do sistema"}]"
+
+> SiteContato::all()->toArray();
+= [
+    [
+      "id" => 2,
+      "created_at" => "2025-07-04T12:02:03.000000Z",
+      "updated_at" => "2025-07-04T12:02:03.000000Z",
+      "nome" => "JUAN PABLO DE ALMEIDA VAZ",
+      "telefone" => "62993354383",
+      "email" => "juanpablodealmeidavaz2002@gmail.com",      
+      "motivo_contato" => 1,
+      "mensagem" => "Duvidas",
+    ],
+    [
+      "id" => 3,
+      "created_at" => "2025-07-04T12:59:48.000000Z",
+      "updated_at" => "2025-07-04T12:59:48.000000Z",
+      "nome" => "Maria Pereira",
+      "telefone" => "62993354444",
+      "email" => "mariaperreira@gmail.com",
+      "motivo_contato" => 2,
+      "mensagem" => "gostei do sistema",
+    ],
+  ]
+
+COLLECTION PLUCK
+NESTE EXEMPLO E RETORNADO APENAS O EMAIL DOS USUARIOS QUE POSSUEM ID ENTRE 4 E 5
+> SiteContato::whereIn('id',[4,5])->pluck('email');
+= Illuminate\Support\Collection {#5143
+    all: [
+      "mariaperreira@gmail.com",
+      "stefannymore22@gmail.com",
+    ],
+  }
+
+RETORNANDO EMAIL E NOME USANDO O PLUCK
+
+> SiteContato::whereIn('id',[4,5])->pluck('email','nome');   
+= Illuminate\Support\Collection {#6536
+    all: [
+      "Maria Pereira" => "mariaperreira@gmail.com",
+      "Stefanny Ketryn Moreira de Sousa" => "stefannymore22@g
+mail.com",
+    ],
+  }
+  
+
+SE UTILIZAR O SOFTDELETS, ESSE E UM SCRIPT DE RESTAURACAO:
+
+> $f = Fornecedor::withTrashed()->get();
+= Illuminate\Database\Eloquent\Collection {#5155
+    all: [
+      App\Models\Fornecedor {#5159
+        id: 1,
+        nome: "xyz",
+        created_at: "2025-07-04 11:40:16",
+        updated_at: "2025-07-04 11:40:16",
+        uf: "GO",
+        email: "xyz@email.com",
+        site: "fornecedor.com.br",
+        deleted_at: null,
+      },
+      App\Models\Fornecedor {#5160
+        id: 2,
+        nome: "AVC",
+        created_at: "2025-07-04 11:44:30",
+        updated_at: "2025-07-04 17:19:50",
+        uf: "GO",
+        email: "abc@gmail.com.br",
+        site: "abc.com.br",
+        deleted_at: "2025-07-04 17:19:50",
+      },
+    ],
+  }
+
+> $f[1]->restore();
+= true
