@@ -44,7 +44,17 @@ return new class extends Migration
         //
         Schema::table('site_contatos', function (Blueprint $table) {
             $table->integer('motivo_contato');
+            // $table->dropForeign('<table_<coluna>_foreign');
             $table->dropForeign('site_contatos_motivo_contatos_id');
+        });
+
+        //atribuindo motivo_contatos_id para a coluna motivo_contato
+        DB::statement('update site_contatos set motivo_contato = motivo_contatos_id');
+
+        //removendo a coluna motivo_contatos_id
+        Schema::table('site_contatos', function (Blueprint $table) {
+            
+            $table->dropColumn('motivo_contatos_id');
             
         });
     }
