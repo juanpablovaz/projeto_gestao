@@ -10,39 +10,45 @@ class FornecedorController extends Controller
 
     public function index () {
 
-        $fornecedores = [
-            0 => [
-                'nome' => 'Fornecedor 1',
-                'status' => 'S',
-                'cnpj' => '',
-                'ddd' => '11',
-                'telefone' => '0000-0000'
-            ],
-            1 => [
-                'nome' => 'Fornecedor 2',
-                'status' => 'N',
-                'cnpj' => 'ertge56e56',
-                'ddd' => '32',
-                'telefone' => '0000-0000'
-                
-            ],
-            2 => [
-                'nome' => 'Fornecedor 3',
-                'status' => 'N',
-                'cnpj' => '55456456456',
-                'ddd' => '85',
-                'telefone' => '0000-0000'
-            ],
-            3 => [
-                'nome' => 'Fornecedor 4',
-                'status' => 'N',
-                'cnpj' => 'x00000sa',
-                'ddd' => '64',
-                'telefone' => '0000-0000'
-            ]
+        
 
-        ];
+        return view('app.fornecedor.index');
+    }
 
-        return view('app.fornecedor.index', compact('fornecedores'));
+    public function listar(){
+        return view('app.fornecedor.listar');
+    }
+
+    public function adicionar(Request $request){
+
+        if($request->input('_token') != ''){
+            //iniciar cadastro
+            $regras = [
+                'nome' => 'request|min:3|max:40',
+                'site' => 'required',
+                'uf' => 'required|min:2|max:2',
+                'email' => 'email'
+            ];
+
+            $feedback = [
+                'nome.required' => 'O campo nome é obrigatório',
+                'nome.min' => 'O campo nome deve ter no minimo 3 caracteres',
+                'nome.max' => 'O campo nome deve ter no máximo 40 caracteres',
+                'site.required' => 'O campo site é obrigatório',
+                'uf.required' => 'O campo uf é obrigatório',
+                'uf.min' => 'O campo uf deve ter no minimo 2 caracteres',
+                'uf.max' => 'O campo uf deve ter no máximo 2 caracteres',
+                'email' => 'email'
+            ];
+
+            $request->validate($regras, $feedback);
+
+            
+
+            
+
+        }
+
+        return view('app.fornecedor.adicionar');
     }
 }

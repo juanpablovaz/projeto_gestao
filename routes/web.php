@@ -35,11 +35,14 @@ Route::get('/teste', function () {
 });
 
 Route::middleware(Autenticacao::class)->prefix('/app')->group(function () {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('app.home');
     Route::get('/cliente', [ClienteController::class, 'index'])->name('app.cliente');
     Route::get('/fornecedor', [FornecedorController::class, 'index'])->name('app.fornecedor');
+    Route::post('/fornecedor/listar', [FornecedorController::class, 'listar'])->name('app.fornecedor.listar');
+    Route::get('/fornecedor/adicionar', [FornecedorController::class, 'adicionar'])->name('app.fornecedor.adicionar');
+
     Route::get('/produto', [ProdutoController::class, 'index'])->name('app.produto');
-    Route::get('/sair', [LoginController::class, 'index'])->name('app.sair');
+    Route::get('/sair', [LoginController::class, 'sair'])->name('app.sair');
 });
 
 //Auth::routes();
