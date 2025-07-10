@@ -18,10 +18,15 @@
             <div style="width: 30%; margin-left: auto; margin-right: auto">
                 <form action="{{route('app.fornecedor.adicionar')}}" method="POST">
                     @csrf
-                    <input type="text" name="nome" class="borda-preta" placeholder="Informe o nome">
-                    <input type="text" name="site" class="borda-preta" placeholder="Informe o site">
-                    <input type="text" name="uf" class="borda-preta" placeholder="Informe o uf">
-                    <input type="text" name="email" class="borda-preta" placeholder="Informe o email">
+                    {{ $msg }}
+                    <input type="text" name="nome" class="borda-preta" placeholder="Informe o nome" value="{{ old('nome') }}">
+                    {{ $errors->has('nome') ? $errors->first('nome') : '' }}
+                    <input type="text" name="site" class="borda-preta" placeholder="Informe o site" value="{{ old('site') }}">
+                    {{ $errors->has('site') ? $errors->first('site') : '' }}
+                    <input type="text" name="uf" class="borda-preta" placeholder="Informe o uf" value="{{ old('uf') }}">
+                    {{ $errors->has('uf') ? $errors->first('uf') : '' }}
+                    <input type="text" name="email" class="borda-preta" placeholder="Informe o email" value="{{ old('email') }}">
+                    {{ $errors->has('email') ? $errors->first('email') : '' }}
                     <button type="submit" class="borda-preta">Adicionar</button>
                 </form>
             </div>
