@@ -23,10 +23,10 @@ class FornecedorController extends Controller
         ->where('site','like','%'.$request->site.'%')
         ->where('uf','like','%'.$request->uf.'%')
         ->where('email','like','%'.$request->email.'%')
-        ->get();
+        ->paginate(2);
 
-        return view('app.fornecedor.listar', ['fornecedores' => $fornecedores]);
-
+        return view('app.fornecedor.listar', ['fornecedores' => $fornecedores, 'request' => $request->all()]);
+        //mandar request para o pagination
 
     }
 
@@ -34,7 +34,8 @@ class FornecedorController extends Controller
 
         $msg = '';
 
-        if($request->input('_token') != ''){
+        //inclusao
+        if($request->input('_token') != '' && $request->input('id') == ''){
             //iniciar cadastro
             $regras = [
                 'nome' => 'required|min:3|max:40',
@@ -65,15 +66,31 @@ class FornecedorController extends Controller
 
         }
 
+        //edição
+        if($request->input('_token') != '' && $request->input('id') != ''){
+            $fornecedor = Fornecedor::find($request->input('id'));
+            $update = $fornecedor->update($request->all());
+
+            if($update){
+                $msg = "Fornecedor atualizado com sucesso";
+            }else{
+                $msg = "Inconcistência";
+            }
+
+            return redirect()->route('app.fornecedor.editar', ['id'=> $request->input('id'),'msg' => $msg]);
+
+        }
+
         return view('app.fornecedor.adicionar', ['msg' => $msg]);
     }
 
-    public function editar($id){
+    public function editar($id, $msg = ''){
         
         //recuperar dados desse fornecedor que sera editado
+        // na view, devemos implementar a recuperacao desses dados
         $fornecedor = Fornecedor::find($id);
 
-        return view('app.fornecedor.adicionar',['fornecedor' => $fornecedor]);
+        return view('app.fornecedor.adicionar',['fornecedor' => $fornecedor, 'msg'=>$msg]);
 
     }
 }

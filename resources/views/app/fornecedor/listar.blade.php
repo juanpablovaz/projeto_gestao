@@ -41,7 +41,18 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{$fornecedores->count()}} - Total de registros por página
+                <br>
+                {{$fornecedores->total()}} - Total de registros da consulta
+                <br>
+                {{$fornecedores->firstItem()}} - Retorna o numero do primeiro registro da página
+                <br>
+                {{$fornecedores->lastItem()}} - Retorna o numero do ultimo registro da página
+                <br>
+                {{ $fornecedores->appends($request)->links()}}
+                <br>
                 
+                                
             </div>
         </div>
     </div>
