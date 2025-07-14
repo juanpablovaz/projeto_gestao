@@ -8,6 +8,7 @@ use App\Http\Controllers\SobrenosController;
 use App\Http\Controllers\FornecedorController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProdutoController;
+use App\Http\Controllers\ProdutoDetalheController;
 use App\Http\Middleware\Autenticacao;
 
 /*
@@ -43,8 +44,14 @@ Route::middleware(Autenticacao::class)->prefix('/app')->group(function () {
     Route::get('/fornecedor/adicionar', [FornecedorController::class, 'adicionar'])->name('app.fornecedor.adicionar');
     Route::post('/fornecedor/adicionar', [FornecedorController::class, 'adicionar'])->name('app.fornecedor.adicionar');
     Route::get('/fornecedor/editar/{id}/{msg?}', [FornecedorController::class, 'editar'])->name('app.fornecedor.editar');
-    
-    Route::get('/produto', [ProdutoController::class, 'index'])->name('app.produto');
+    Route::get('/fornecedor/remover/{id}', [FornecedorController::class, 'excluir'])->name('app.fornecedor.excluir');
+
+    //Route::get('/produto', [ProdutoController::class, 'index'])->name('app.produto');
+    Route::resource('produto', ProdutoController::class);
+
+    Route::resource('produto-detalhe', ProdutoDetalheController::class);
+
+
     Route::get('/sair', [LoginController::class, 'sair'])->name('app.sair');
 });
 

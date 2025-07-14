@@ -35,24 +35,47 @@
                                 <td>{{ $fornecedor->site }}</td>
                                 <td>{{ $fornecedor->uf }}</td>
                                 <td>{{ $fornecedor->email }}</td>
-                                <td>Excluir</td>
-                                <td><a href="{{ route('app.fornecedor.editar',$fornecedor->id) }}">Editar</a></td>
+                                <td><a href="{{ route('app.fornecedor.excluir', $fornecedor->id) }}">Excluir</a></td>
+                                <td><a href="{{ route('app.fornecedor.editar', $fornecedor->id) }}">Editar</a></td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="6">
+                                    <p>Lista de Produtos</p>
+                                    <table border="1" style="margin:20px;">
+                                        <thead>
+                                            <tr>
+                                                <th>Id:</th>
+                                                <th>Nome:</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($fornecedor->produtos as $key => $produto)
+                                                <tr>
+                                                    <td>{{ $produto->id }}</td>
+                                                    <td>{{ $produto->nome }}</td>
+                                                </tr>
+                                            @endforeach
+
+                                        </tbody>
+                                    </table>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-                {{$fornecedores->count()}} - Total de registros por página
+                {{ $fornecedores->count() }} - Total de registros por página
                 <br>
-                {{$fornecedores->total()}} - Total de registros da consulta
+                {{ $fornecedores->total() }} - Total de registros da consulta
                 <br>
-                {{$fornecedores->firstItem()}} - Retorna o numero do primeiro registro da página
+                {{ $fornecedores->firstItem() }} - Retorna o numero do primeiro registro da página
                 <br>
-                {{$fornecedores->lastItem()}} - Retorna o numero do ultimo registro da página
+                {{ $fornecedores->lastItem() }} - Retorna o numero do ultimo registro da página
                 <br>
-                {{ $fornecedores->appends($request)->links()}}
+                {{ $fornecedores->appends($request)->links() }}
                 <br>
-                
-                                
+
+
             </div>
         </div>
     </div>
