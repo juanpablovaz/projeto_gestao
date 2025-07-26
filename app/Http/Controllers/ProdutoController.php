@@ -45,6 +45,7 @@ class ProdutoController extends Controller
     public function store(Request $request)
     {
         //
+        
         $regras = [
             'nome' => 'required|min:3|max:40',
             'descricao' => 'required|min:3|max:2000',
@@ -107,12 +108,14 @@ class ProdutoController extends Controller
     public function update(Request $request, Produto $produto)
     {
         //
+        
+        
         $regras = [
             'nome' => 'required|min:3|max:40',
             'descricao' => 'required|min:3|max:2000',
             'peso' => 'required|integer',
-            'unidade_id' => 'exists:unidades,id',
-            'fornecedor_id' => 'exists:fornecedores,id'
+            'unidade_id' => 'required|exists:unidades,id',
+            'fornecedor_id' => 'required|exists:fornecedores,id'
         ];
         $feedbacks = [
             'required' => 'O campo :attribute deve ser preenchido',

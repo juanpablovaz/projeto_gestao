@@ -22,7 +22,8 @@
                         <tr>
                             <th>Nome</th>
                             <th>Descricao</th>
-                            <th>Fornecedor</th>
+                            <th>Nome do fornecedor</th>
+                            <th>Site do fornecedor</th>
                             <th>Peso</th>
                             <th>Unidade_id</th>
                             <th>Comprimento</th>
@@ -39,6 +40,7 @@
                                 <td>{{ $produto->nome }}</td>
                                 <td>{{ $produto->descricao }}</td>
                                 <td>{{ $produto->fornecedor->nome }}</td>
+                                <td>{{ $produto->fornecedor->site }}</td>
                                 <td>{{ $produto->peso }}</td>
                                 <td>{{ $produto->unidade_id }}</td>
                                 <td>{{ $produto->produtoDetalhe->comprimento ?? '' }}</td>
@@ -46,14 +48,38 @@
                                 <td>{{ $produto->produtoDetalhe->altura ?? '' }}</td>
                                 <td><a href="{{ route('produto.show', ['produto' => $produto->id]) }}">Visualizar</a></td>
                                 <td>
-                                    <form id="form_{{ $produto->id }}" method="post" action="{{ route('produto.destroy', ['produto' => $produto->id]) }}">
+                                    <form id="form_{{ $produto->id }}" method="post"
+                                        action="{{ route('produto.destroy', ['produto' => $produto->id]) }}">
                                         @method('delete')
                                         @csrf
-                                        <a href="#" onclick="document.getElementById('form_{{ $produto->id}}').submit()">Excluir</a>
+                                        <a href="#"
+                                            onclick="document.getElementById('form_{{ $produto->id }}').submit()">Excluir</a>
                                     </form>
 
                                 </td>
                                 <td><a href="{{ route('produto.edit', ['produto' => $produto->id]) }}">Editar</a></td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="12">
+                                    Exibir o Id do pedido(s)
+                                    <table border="1" width="50%">
+                                        <thead>
+                                            <tr>
+                                                <th>Id do pedido</th>
+                                             
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($produto->pedidos as $pedido)
+                                                <tr>
+                                                    <td><a href="{{ route('pedido-produto.create', ['pedido'=>$pedido->id]) }}">{{ $pedido->id }}</a></td>
+                                                </tr>
+                                                
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
